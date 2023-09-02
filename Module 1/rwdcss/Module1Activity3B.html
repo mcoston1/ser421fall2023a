@@ -1,0 +1,168 @@
+<html><head><title>JS3 Race1 Example</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style type="text/css">
+* {
+	box-sizing: border-box;
+}
+
+[class*="column-"] {
+	float: left;
+	width: 33.33%;
+	padding: 5px;
+	text-align: left;
+}
+[class*="header"] { 
+	font-weight: bold; 
+	font-style: italic; 
+	font-size: 150%;
+	height: auto; }
+
+@media screen and (max-width: 800px) {
+	[class*="column-"] {
+		width: 50%;
+	}
+}
+
+@media screen and (max-width: 550px) {
+	[class*="column-"]{
+		width: 100%;
+	}
+}
+
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+	body { font-family: Georgia, "Times New Roman", Times, serif; }
+	#asulogoleft { width: 10%; max-width: 100%; height: auto; }
+	#titlename { text-align: center; font-size: 150%; width: 80%; max-width: 100%; height: auto; }
+	#asulogoright { width: 10%; max-width: 100%; height: auto; }
+	#photoself { width: 10%; max-width: 100%; height: auto; }
+	#introblurb { width: 80%; font-size: 87.5%; max-width: 100%; height: auto; }
+	#contactinfo { width: 25%; font-size: 75%; text-align: left; vertical-align: text-top; max-width: 100%; height: auto; }
+	#blogentryfeed { width: 35%; font-size: 75%; text-align: left; vertical-align: text-top; max-width: 100%; height: auto; }
+	#linksheader { font-weight: bold; font-style: italic; font-size: 100%; max-width: 100%; height: auto; }
+	ul { font-style: normal; font-size: 125%; font-weight: normal; max-width: 100%; }
+	#nerdscoreimg { vertical-align: bottom; max-width: 100%; height: auto; }
+	#problemrow { text-align: left; font-style: normal; font-size: 87.5%; font-weight: normal; max-width: 100%; }
+	#pubsheader { width: 100%; font-weight: bold; font-style: italic; font-size: 100%; max-width: 100%; height: auto; }
+	#publist { font-weight: normal; font-style: normal; font-size: 100%; max-width: 100%; height: auto; }
+	#asulogobleft { width: 10%; max-width: 100%; height: auto; }
+	#asulogobright { width: 10%; max-width: 100%; height: auto; }
+	#copyright { width: 80%; font-size: 75%; text-align: center; max-width: 100%; height: auto;  }
+
+</style>
+
+<script>console.log('HEAD')
+
+</script>
+</head>
+    <!-- NEW: This example outputs when different DOM events happen -->
+    <!-- SLEEPY -->
+<body onloadstart="console.log('ONLOADSTART')" onload='console.log("ONLOAD")'>
+<div id="fb-root"></div>
+
+<div class="row">
+	<div class="column-1" id="asulogoleft"> <img src="./images/asulogo.jpg"/> </div>
+	<div class="column-2" id="titlename">Kevin A. Gary, Ph.D.</div>
+	<div class="column-3" id="asulogoright"><img src="./images/asulogo.jpg"/></div>
+</div>
+<div class="row">
+	<div class="column-1" id="photoself"><img src="./images/KevinAGarySmall.jpg"/> </div>
+	<div class="column-2" id="introblurb">Welcome to my homepage! I have been on the faculty at ASU since 2004, tenured in 2010. 
+		I believe in creating challenging learning experiences for my students that prepares 
+		them for industry, the profession, and life! I do this through 
+		hands-on, project-based teaching in the 
+		<a href="https://softwareenterprise.asu.edu">Software Enterprise</a>, use-inspired 
+		applied research (particularly in e-Learning and healthcare), and applying 
+		industry best practices in the classroom. My primary area is 
+		"Software Engineering", but my interests vary from enterprise computing to mHealth to
+		agile and open source software engineering.</div>
+	<div class="column-3"></div>
+</div>
+
+<div class="row">
+	<div class="column-1" id="contactinfo">
+	<div class="header" >Contact Info:</div>
+		<P>
+			Associate Professor<br/>
+			<a href="http://cidse.engineering.asu.edu">The School of Computing, Informatics, and Decision Systems Engineering</a><br/>
+			<a href="http://engineering.asu.edu/">The Ira A. Fulton Schools of Engineering</a><br/>
+			<a href="http://poly.asu.edu">Software Engineering Program Faculty, Polytechnic Campus</a><br/>
+			7171 Sonoran Arroyo Mall<br/>
+			Peralta 230C <br/>
+			Mesa Arizona 85212<br/>
+			Phone: <a href="tel:1-480-727-1373">(480)727-1373</a><br/>
+			Email:<a href="mailto:kgary@asu.edu">kgary@asu.edu</a><br/>
+			Web: <a href="http://www.public.asu.edu/~kgary">homepage</a>, <a href="http://drgarysblog.blogspot.com">blog</a> <br/>
+			<br/>
+			Twitter: <a href="https://twitter.com/drkevingary" class="twitter-follow-button" data-show-count="false">Follow @drkevingary</a>
+			<br/> 
+			<br/>
+	<div class="header" >Links:</div>
+      <ul>
+		<li><a href="./docs/CVfull.pdf">Current Vitae (including pubs)</a></li>
+        <li><a href="./docs/ASUGradResearch100212.pdf">Graduate seminar presentation of research projects (2012)</a></li>
+		<li><a href="http://www.igstk.org">IGSTK</a></li>
+		<li><a href="http://softwareenterprise.asu.edu">The Software Enterprise</a></li>
+		<li><a href="http://atic.asu.edu">The Advanced Technology Innovation Center (ATIC)</a>
+      </ul>
+		<br/>
+		<a href="http://www.nerdtests.com/ft_nq.php">
+		<img id="nerdscoreimg" src="http://www.nerdtests.com/images/ft/nq/21991e3bef.gif" alt="I am nerdier than 98% of all people. Are you a nerd? Click here to take the Nerd Test, get geeky images and jokes, and talk on the nerd forum!"></a>
+	
+		</P>
+	</div>
+	<div class="column-2" id="blogentryfeed">
+	<div class="header">Blog entries:</div>
+		<script language="JavaScript" src="https://www.feed2js.org//feed2js.php?src=http%3A%2F%2Fdrgarysblog.blogspot.com%2Ffeeds%2Fposts%2Fdefault&amp;chan=title&amp;num=3&amp;desc=150&amp;date=y&amp;targ=y&amp;pc=y&amp;html=p"  type="text/javascript"></script>
+		<noscript>
+		<a href="https://www.feed2js.org//feed2js.php?src=http%3A%2F%2Fdrgarysblog.blogspot.com%2Ffeeds%2Fposts%2Fdefault&amp;chan=title&amp;num=3&amp;desc=200&amp;date=y&amp;targ=y&amp;pc=y&amp;html=y">View RSS feed</a>
+		</noscript>
+	</div>
+	<div class="column-3" id="twitterwidget">
+	<div class="header">My tweets:</div>
+		<a class="twitter-timeline"  href="https://twitter.com/drkevingary"  data-widget-id="390204299604541440">Tweets by @drkevingary</a>
+		<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+		<br/>
+				<!-- SLEEPY -->
+		<script>console.log('Middle table 2')</script>
+	</div>
+</div>
+    <!-- SLEEPY -->
+    <script>console.log('Finished table 1')</script>
+
+<div class="row" id="problemrow">
+	<div class="column-1" id="pubsheader">
+		Selected Publications (see <a href="./docs/CVfull.pdf">CV</a> for full list): <br/>
+	<div id="publist">	
+		<ol>		 
+			<li>Gary, K., Kojcev, R., and Cleary, K. “A Systems Integration Architecture for NOTE Surgery”, Proceedings of the 16th Conference on Software Engineering and Applications (SEA 2012). Las Vegas, TX, November 2012.</li>
+			<li>Gary, K., Kocjev, R., and Cleary, K. “Observations on the Evolving Maturity of Software and Systems Architecture Supporting Surgical Procedures”, Workshop on Infrastructure, Tools, and Technologies for System of Systems of Medical Devices (SoSMD 2011). Kansas, November 2011.</li>
+			<li>Gary, K., Kokoori, S., Muffih, B., Enquobahrie, A., Cheng, P., Yaniv, Z., and Cleary, K. “Agile Methods for Safety-Critical Open Source Software”, Software: Practice and Experience, April 2011.</li>
+			<li>Gary, K. The Software Enterprise: Practicing Best Practices in Software Engineering Education, <i>The International Journal of Engineering Education</i> Special Issue on Trends in Software Engineering Education, Volume 24, Number 4, July 2008, pp. 705-716.</li>
+			<li>Gary, K., The Software Enterprise: Preparing Industry-ready Software Engineers, in <i>Software Engineering: Effective Teaching and Learning Approaches</i>, Ellis, H., Demurjian, S., and Naveda, J.F., (eds.), Idea Group Publishing. October 2008.</li>
+			<li>Gary, K. and Koehnemann, H. Component-based Deployment for Web Applications: Methods and Issues, in <i>Software Engineering for Modern Web Applications</i>, Brandon, D. (ed.), Idea Group Publishing. 2008.</li>
+			<li>Gary, K., Blake, B., Ibanez, L., Gobbi, D., Aylward, S., and Cleary, K. IGSTK: An Open Source Software Platform for Image-Guided Surgery,  <i>IEEE Computer Special Issue on software engineering and application of software-based medical devices and device systems</i>, April 2006.</li>
+		  <ol>
+	</div>  
+	</div>
+	<div class="column-2"></div>
+	<div class="column-3"></div>
+</div>
+<br/>
+    <!-- SLEEPY -->
+<script>console.log('Finished table 2')</script>
+<div class="row">
+	<div class="column-1" id="asulogobleft"><img src="./images/asulogo.jpg"/></div>
+	<div class="column-2" id="copyright">Copyright &copy; 2013 Kevin A. Gary</div>
+	<div class="column-3" id="asulogobright"><img src="./images/asulogo.jpg"/></div>
+</div>
+<img src="./images/asurib.gif" width="1024" height="2px"/>
+<br/>
+    <script>console.log('Finished table 3')</script>
+</body>
+</html>
