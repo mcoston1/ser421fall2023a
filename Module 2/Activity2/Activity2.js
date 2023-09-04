@@ -5,28 +5,24 @@ var dicti=[];
 var greetOptions=[];
 var timeOuts=[];
 var uname;
+var timeout;
 
 function evalu() {
     if (init=="new") {        
         dict();
         greet();
     } else {
-        console.log("made it to else inside evalu!"); //DEBUG
         parse();
     }    
 }
 
 function parse() {
-    let timeout;
-
+    clearTimeout(timeout);
     console.log("Parsing user input..."); //DEBUG
     var userStr = document.getElementById("inputArea").value;
-    console.log("user input is: " + userStr); //DEBUG
     var splitStr = userStr.split(" ");
-    console.log("split str length is: " + splitStr.length); //DEBUG
     searchKeys(splitStr);
-
-    timeout = setTimeout(alertFn, 10000);
+    document.getElementById("inputArea").value = "";    
 };
 
 function alertFn() {
@@ -34,53 +30,40 @@ function alertFn() {
     alert(uname + timeOuts.sass[sassIndex]);
 }
 
-function searchKeys(splitStr) {
+function searchKeys(splitStr) {    
     console.log("Searching keys...."); //DEBUG
     var keyArray = dicti.entries;
     for (let i = 0; i < keyArray.length; i++) { //for ev keyarray in dicti
-        console.log(keyArray[i]); //DEBUG
         for (let j = 0; j < splitStr.length; j++) { //for each str in usr resp
-            let str = splitStr[j].toLowerCase(); //make lowercase
-            console.log(str + " is being searched for");            
+            let str = splitStr[j].toLowerCase(); //make lowercase            
             let kArr = keyArray[i].key; 
             let ansArr = keyArray[i].answer;
             let queArr = keyArray[i].question;
-            console.log(kArr); //DEBUG
             var iOstr = kArr.indexOf(str); //find index
             if (iOstr > -1) { //if element exist in the array
-                console.log("user string exists!"); //DEBUG
                 //pull an answer randomly
-                console.log("length of answer array is " + ansArr.length);
                 var ansIndex = Math.floor(Math.random() * ansArr.length);
-                console.log("Randomized answer is: " + ansArr[ansIndex]);
                 document.getElementById("answer").innerHTML = ansArr[ansIndex];
                 //pull a question randomly
-                console.log("length of question array is " + queArr.length);
                 var queIndex = Math.floor(Math.random() * queArr.length);
-                console.log("Randomized question is: " + queArr[queIndex]);
                 document.getElementById("question").innerHTML = queArr[queIndex];
                 break; //hop out of inner for loop                
-            } else {
-                console.log("user string does not exist in these keys");
             }
         }
         if (iOstr > -1) {
             break; //hop out of outer for loop
         }
     }
-    if (iOstr < 0) {
-        console.log ("Onto default case!");
+    if (iOstr < 0) { //default case
         var ind = keyArray.length - 2; //default case is second to last
         var defAns = keyArray[ind].answer;
         var defQue = keyArray[ind].question;
-        console.log("length of default ans arr is..." + defAns.length);
         var defAnsIndex = Math.floor(Math.random() * defAns.length);
         var defQueIndex = Math.floor(Math.random() * defQue.length);
-        console.log("length of default ques array is..." + defQue.length);
         document.getElementById("answer").innerHTML = defAns[defAnsIndex];
         document.getElementById("question").innerHTML = defQue[defQueIndex];
     }
-    console.log("Made it out of key search!");
+    timeout = setTimeout(alertFn, 10000);
 }
 
 function greet() {
@@ -89,14 +72,11 @@ function greet() {
     document.getElementById("inputArea").value = "";
     document.getElementById("greeting").innerHTML = "Why hello there, " + uname + ".";
     document.getElementById("answer").innerHTML = "Salutations.";
-
-    console.log("Randomizing greeting......");
     var grIndex = Math.floor(Math.random() * greetOptions.greetings.length);
     document.getElementById("question").innerHTML = uname + greetOptions.greetings[grIndex];
     init = "false";
+    timeout = setTimeout(alertFn, 10000);
 }
-
-
 
 function dict() {
     console.log("Creating our dictionary..."); //DEBUG
