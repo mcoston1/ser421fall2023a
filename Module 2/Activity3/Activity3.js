@@ -6,6 +6,9 @@ var greetOptions=[];
 var timeOuts=[];
 var uname;
 var timeout;
+var hal = "HAL: ";
+var you = ": ";
+var br = "<br/>";
 
 function evalu() {
     if (init=="new") {        
@@ -20,14 +23,35 @@ function parse() {
     clearTimeout(timeout);
     console.log("Parsing user input..."); //DEBUG
     var userStr = document.getElementById("inputArea").value;
-    var splitStr = userStr.split(" ");
-    searchKeys(splitStr);
-    document.getElementById("inputArea").value = "";    
+    if (userStr == "/clear") {
+        cleanse();
+        document.getElementById("inputArea").value = "";
+    } else {
+        document.getElementById("conversation").innerHTML += uname + you + userStr + br;
+        var splitStr = userStr.split(" ");
+        searchKeys(splitStr);
+        document.getElementById("inputArea").value = "";
+    }    
 };
 
 function alertFn() {
     var sassIndex = Math.floor(Math.random() * timeOuts.sass.length);
+    document.getElementById("conversation").innerHTML += hal + uname + timeOuts.sass[sassIndex] + br;
+    save();
     alert(uname + timeOuts.sass[sassIndex]);
+}
+
+function track(answer, question) {
+   // document.getElementById()
+}
+
+function cleanse() {
+    sessionStorage.removeItem(uname);
+    console.log("Clearing session storage for " + uname);
+    document.getElementById("greeting").innerHTML = "Why hello there, <strike>Dave.</strike>  ...new person!";
+    document.getElementById("conversation").innerHTML = "HAL: I am a rewritten Heuristically Programmed Algorithmic Computer, but you can call me HAL. <br/>HAL: What is your name? <br/>";
+    document.getElementById("inputArea").value = "";
+    init = "new";
 }
 
 function searchKeys(splitStr) {    
@@ -43,14 +67,15 @@ function searchKeys(splitStr) {
             if (iOstr > -1) { //if element exist in the array
                 //pull an answer randomly
                 var ansIndex = Math.floor(Math.random() * ansArr.length);
-                document.getElementById("answer").innerHTML = ansArr[ansIndex];
+                document.getElementById("conversation").innerHTML += hal + ansArr[ansIndex] + br; //answer
                 //pull a question randomly
                 var queIndex = Math.floor(Math.random() * queArr.length);
-                document.getElementById("question").innerHTML = queArr[queIndex];
+                document.getElementById("conversation").innerHTML += hal + queArr[queIndex] + br; //question
                 break; //hop out of inner for loop                
             }
         }
         if (iOstr > -1) {
+            save();
             break; //hop out of outer for loop
         }
     }
@@ -60,8 +85,9 @@ function searchKeys(splitStr) {
         var defQue = keyArray[ind].question;
         var defAnsIndex = Math.floor(Math.random() * defAns.length);
         var defQueIndex = Math.floor(Math.random() * defQue.length);
-        document.getElementById("answer").innerHTML = defAns[defAnsIndex];
-        document.getElementById("question").innerHTML = defQue[defQueIndex];
+        document.getElementById("conversation").innerHTML += hal + defAns[defAnsIndex] + br;
+        document.getElementById("conversation").innerHTML += hal + defQue[defQueIndex] + br;
+        save();
     }
     timeout = setTimeout(alertFn, 10000);
 }
@@ -69,13 +95,32 @@ function searchKeys(splitStr) {
 function greet() {
     var elem = document.getElementById("inputArea");
     uname = elem.value;
-    document.getElementById("inputArea").value = "";
-    document.getElementById("greeting").innerHTML = "Why hello there, " + uname + ".";
-    document.getElementById("answer").innerHTML = "Salutations.";
-    var grIndex = Math.floor(Math.random() * greetOptions.greetings.length);
-    document.getElementById("question").innerHTML = uname + greetOptions.greetings[grIndex];
-    init = "false";
-    timeout = setTimeout(alertFn, 10000);
+    if (uname == "/clear") {
+        sessionStorage.clear();
+        cleanse();
+    } else if (sessionStorage.getItem(uname) != null) {
+        //restore session
+        console.log("Restoring session for..." + uname);
+        document.getElementById("conversation").innerHTML = sessionStorage.getItem(uname);
+        document.getElementById("inputArea").value = "";
+        init = "false";
+    } else {
+        document.getElementById("inputArea").value = "";
+        document.getElementById("greeting").innerHTML = "Why hello there, " + uname + ".";
+        document.getElementById("conversation").innerHTML += uname + you + uname + "<br/>";
+        document.getElementById("conversation").innerHTML += hal + "Salutations.<br/>";
+        var grIndex = Math.floor(Math.random() * greetOptions.greetings.length);
+        document.getElementById("conversation").innerHTML += hal + uname + greetOptions.greetings[grIndex] + "<br/>";
+        save();
+        init = "false";
+        timeout = setTimeout(alertFn, 10000);
+    }
+}
+
+function save() {
+    sessionStorage.setItem(uname, document.getElementById("conversation").innerHTML)
+    console.log("DEBUG-----------------------------------------");
+    console.log(sessionStorage.getItem(uname));
 }
 
 function dict() {
