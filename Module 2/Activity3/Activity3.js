@@ -46,7 +46,7 @@ function track(answer, question) {
 }
 
 function cleanse() {
-    sessionStorage.removeItem(uname);
+    localStorage.removeItem(uname);
     console.log("Clearing session storage for " + uname);
     document.getElementById("greeting").innerHTML = "Why hello there, <strike>Dave.</strike>  ...new person!";
     document.getElementById("conversation").innerHTML = "HAL: I am a rewritten Heuristically Programmed Algorithmic Computer, but you can call me HAL. <br/>HAL: What is your name? <br/>";
@@ -96,12 +96,12 @@ function greet() {
     var elem = document.getElementById("inputArea");
     uname = elem.value;
     if (uname == "/clear") {
-        sessionStorage.clear();
+        localStorage.clear();
         cleanse();
-    } else if (sessionStorage.getItem(uname) != null) {
+    } else if (localStorage.getItem(uname) != null) {
         //restore session
         console.log("Restoring session for..." + uname);
-        document.getElementById("conversation").innerHTML = sessionStorage.getItem(uname);
+        document.getElementById("conversation").innerHTML = localStorage.getItem(uname);
         document.getElementById("inputArea").value = "";
         init = "false";
     } else {
@@ -118,9 +118,9 @@ function greet() {
 }
 
 function save() {
-    sessionStorage.setItem(uname, document.getElementById("conversation").innerHTML)
+    localStorage.setItem(uname, document.getElementById("conversation").innerHTML)
     console.log("DEBUG-----------------------------------------");
-    console.log(sessionStorage.getItem(uname));
+    console.log(localStorage.getItem(uname));
 }
 
 function dict() {
