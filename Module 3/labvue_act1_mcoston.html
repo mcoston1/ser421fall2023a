@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Lab 3 Activity 1</title>
+    </head>
+    <body>
+        <div id="app">
+            {{evaluate}}
+            <h3>Answer me these questions 3: </h3>
+            <p id="q1">1. What is your name?</p>
+                <input v-model="answer1" type="text"/><br/>
+
+            <p id="q2">2. What is your quest?</p>
+                <input v-model="answer2" type="text"/><br/>
+
+            <p v-if="q3">3. What is your favorite color?</p>
+            <p v-else>3. What is the airspeed velocity of an unladen swallow?</p>
+                <input v-model="answer3" type=text/><br/>
+
+            <p v-if="resp > 0">Bridgekeeper: Alright, off you go then.</p>
+            <p v-else-if="resp == 0">Knight: AAAAAAAAAAHHHHHHHHHHHHHH!!!!!</p>
+            <p v-else></p>
+            <button @click="responseEval">Go again!</button>
+            
+        </div>
+
+        <script src="https://unpkg.com/vue@3"></script> 
+
+        <script>
+            Vue.createApp({
+                data() {
+                    return {
+                        q3: false, 
+                        resp: -1,
+                        answer1:"",
+                        answer2:"",
+                        answer3:""
+                    
+                    }
+                 },
+                 computed: {
+                    evaluate() {
+                        if (this.answer1.length > 0 && this.answer2.length > 0 && this.answer3.length > 0) {
+                                this.resp = 1;                            
+                                if (this.answer1 == "idk" || this.answer2 == "idk" || this.answer3 == "idk") {
+                                    this.resp = 0;
+                                }
+                            } else {
+                                this.resp = -1;
+                            }
+                    }
+                 },
+                methods: {
+                    responseEval() {
+                        
+
+                        this.answer1 = "";
+                        this.answer2 = "";
+                        this.answer3 = "";
+
+                        if (this.q3 == true) {
+                            this.q3 = false;
+                        } else {
+                            this.q3 = true;
+                        }
+                    }
+                }
+            }).mount('#app')
+        </script>
+    </body>
+</html>
