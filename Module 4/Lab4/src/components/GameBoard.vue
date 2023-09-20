@@ -8,42 +8,92 @@
                 player3score:0,
                 currentcat:'',
                 currentquest:'',
-                hasstarted:false,
                 cat1id:'',
                 cat2id:'',
                 cat3id:'',
-                cat4id:''
+                cat4id:'',
+                category1:'',
+                category2:'',
+                category3:'',
+                category4:''
             }
-        },
-        computed: {
+        },  
+         methods: {
+                category(number) {
+                    //makes the fetch call with the url
+                    const url = "https://opentdb.com/api_category.php";
+                    fetch(url).then((resp) => resp.json()).then(function(data) {
+                        let categories = data.trivia_categories;
+                        console.log(categories); //DEBUG
+                        let controlbool = true;
+                        while (controlbool) { //ensure randomization is not pisspoor
+                            var rando = Math.floor(Math.random()*(24)); //randomly choose one of the numbers.
+                            switch(rando) {
+                                case 4:
+                                    console.log("Failed. Index: " + rando);
+                                break;
+                                case 12:
+                                    console.log("Failed. Index: " + rando);
+                                break;
+                                case 18:
+                                    console.log("Failed. Index: " + rando);
+                                break;
+                                case 21:
+                                    console.log("Failed. Index: " + rando);
+                                break;
+                                case 23:
+                                    console.log("Failed. Index: " + rando);
+                                break;
+                                default:
+                                    console.log("Randomization turned out in your favor woooo!");
+                                    console.log("Number is: " + rando);
+                                    controlbool = false;
+                            }
+                        }
+                        console.log(categories[rando].name);
 
-        },    
-        methods: {
-          category(number) {
-          //API call here to get category name
+                        switch (number) {
+                            case 1:
+                                document.getElementById("category1").innerHTML = categories[rando].name;
+                                this.cat1id = rando;
+                                break;
+                            case 2:
+                                document.getElementById("category2").innerHTML = categories[rando].name;
+                                this.cat2id = rando;
+                                break;
+                            case 3:
+                                document.getElementById("category3").innerHTML = categories[rando].name;
+                                this.cat3id = rando;
+                                break;
+                            case 4:
+                                document.getElementById("category4").innerHTML = categories[rando].name;
+                                this.cat4id = rando;
+                                break;
+                        }
 
-          //makes the fetch call with the url
+                        
 
-          //returns a string
-
-          //gotta parse that into a json object string
+                    }).catch (function(error) {
+                        console.log(JSON.stringify(error));
+                    });
+                }, //end of category method
 
           //then access the guts of said json object to display the category
           //also set the global cat id to use for later
 
           //add in error handling for cat repeats & the few gary mentioned !have necesasry qs
 
-          },
+          
           requestTriviaQuestion(categoryID, difficulty) {
-          //api call 
-          const apiUrl = "https://opentdb.com/api.php?amount=1&category=" + categoryID;
-          const diff = "&difficulty=" + difficulty;
-          const type= "&type=boolean";
-          },
+            //api call 
+            const apiUrl = "https://opentdb.com/api.php?amount=1&category=" + categoryID;
+            const diff = "&difficulty=" + difficulty;
+            const type= "&type=boolean";
+          }
         }
     }
 </script>
-
+{{category()}}
 <template>
     <div id="gameboard">
         <span class="playerscores">
