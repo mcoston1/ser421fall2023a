@@ -55,19 +55,19 @@
                         switch (number) {
                             case 1:
                                 document.getElementById("category1").innerHTML = categories[rando].name;
-                                this.cat1id = rando;
+                                this.cat1id = categories[rando].id;
                                 break;
                             case 2:
                                 document.getElementById("category2").innerHTML = categories[rando].name;
-                                this.cat2id = rando;
+                                this.cat2id = categories[rando].id;
                                 break;
                             case 3:
                                 document.getElementById("category3").innerHTML = categories[rando].name;
-                                this.cat3id = rando;
+                                this.cat3id = categories[rando].id;
                                 break;
                             case 4:
                                 document.getElementById("category4").innerHTML = categories[rando].name;
-                                this.cat4id = rando;
+                                this.cat4id = categories[rando].id;
                                 break;
                         }
 
