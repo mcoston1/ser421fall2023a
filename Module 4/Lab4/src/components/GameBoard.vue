@@ -8,7 +8,11 @@
                 player3score:0,
                 currentcat:'',
                 currentquest:'',
-                hasstarted:false
+                hasstarted:false,
+                cat1id:'',
+                cat2id:'',
+                cat3id:'',
+                cat4id:''
             }
         },
         computed: {
@@ -17,9 +21,24 @@
         methods: {
           category(number) {
           //API call here to get category name
+
+          //makes the fetch call with the url
+
+          //returns a string
+
+          //gotta parse that into a json object string
+
+          //then access the guts of said json object to display the category
+          //also set the global cat id to use for later
+
+          //add in error handling for cat repeats & the few gary mentioned !have necesasry qs
+
           },
-          cat2() {
-          //api call here to get category 2 name
+          requestTriviaQuestion(categoryID, difficulty) {
+          //api call 
+          const apiUrl = "https://opentdb.com/api.php?amount=1&category=" + categoryID;
+          const diff = "&difficulty=" + difficulty;
+          const type= "&type=boolean";
           },
         }
     }
