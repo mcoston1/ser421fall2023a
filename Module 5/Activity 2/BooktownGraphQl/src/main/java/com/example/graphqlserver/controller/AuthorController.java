@@ -47,6 +47,6 @@ public class AuthorController {
 
     @MutationMapping
     public String updateAuthorFirstName(@Argument UpdateAuthorFirstNameInput input) {
-        return authorRepository.updateAuthorFirstNameById(input.newFirstName(), input.authorId());
+        return authorRepository.updateAuthorFirstNameById(input.firstName(), input.id());
     }
 }

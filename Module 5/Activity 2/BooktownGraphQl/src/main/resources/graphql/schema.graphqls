@@ -71,12 +71,12 @@ input AddBookInput {
 }
 
 # Input type for updating an authors first name based on id
-input UpdateAuthorFirstNameInput {
-    # the id of the author
-    id: int
-
+input UpdateAuthorFirstNameInput {  
     # the new first name
     firstName: String
+
+    # the id of the author
+    id: ID
 }
 
 # Payload returned after successfully adding an author.

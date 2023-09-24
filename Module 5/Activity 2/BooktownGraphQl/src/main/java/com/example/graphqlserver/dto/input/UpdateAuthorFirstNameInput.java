@@ -1,4 +1,4 @@
 package com.example.graphqlserver.dto.input;
 
-public record UpdateAuthorFirstNameInput(String newFirstName, int authorId) {
+public record UpdateAuthorFirstNameInput(String firstName, int id) {
 }
