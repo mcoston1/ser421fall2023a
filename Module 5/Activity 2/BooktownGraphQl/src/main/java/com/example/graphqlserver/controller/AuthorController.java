@@ -1,6 +1,7 @@
 package com.example.graphqlserver.controller;
 
 import com.example.graphqlserver.dto.input.AddAuthorInput;
+import com.example.graphqlserver.dto.input.UpdateAuthorFirstNameInput;
 import com.example.graphqlserver.dto.output.AddAuthorPayload;
 import com.example.graphqlserver.model.Author;
 import com.example.graphqlserver.repository.AuthorRepository;
@@ -28,8 +29,13 @@ public class AuthorController {
     }
 
     @QueryMapping
-    public  Author authorById(@Argument("id") int id) {
+    public Author authorById(@Argument("id") int id) {
         return authorRepository.getAuthorById(id);
+    }
+    
+    @QueryMapping
+    public List<Author> getAuthorByLastName(@Argument("lastName") String lastName) {
+        return authorRepository.getAuthorByLastName(lastName);
     }
 
     @MutationMapping
@@ -37,5 +43,10 @@ public class AuthorController {
         var author = authorRepository.save(input.firstName(), input.lastName());
         var out = new AddAuthorPayload(author);
         return out;
+    }
+
+    @MutationMapping
+    public String updateAuthorFirstName(@Argument UpdateAuthorFirstNameInput input) {
+        return authorRepository.updateAuthorFirstNameById(input.newFirstName(), input.authorId());
     }
 }

@@ -50,4 +50,25 @@ public class BookRepository {
         return bookList;
     }
 
+    public ArrayList<String> getTitleList(ArrayList<Integer> authorIDs) {
+        ArrayList<String> titles = new ArrayList<>();
+        for (Integer authid: authorIDs) {
+            ArrayList<Book> bookList = getBooksByAuthorId(authid);
+            for(Book book: bookList) {
+                titles.add(book.getTitle());
+            }
+        }
+        return titles;
+    }
+
+    public String deleteBookByISBN(String ISBN) {
+        for (Book book: dummyBooks) {
+            if (book.getIsbn() == ISBN) {
+                dummyBooks.remove(book);
+                return ISBN;
+            }
+        }
+        return null;
+    }
+
 }

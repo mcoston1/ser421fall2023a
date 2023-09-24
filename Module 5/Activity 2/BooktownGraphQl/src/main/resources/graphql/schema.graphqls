@@ -13,13 +13,13 @@ type Query {
     bookByISBN(isbn: String): Book
 
     # Fetch a list of books based on authorId
-    booksByAuthorId(id: ID): [Book]
+    getBooksByAuthorId(id: ID): [Book]
 
     # Fetch a list of authors based on a last Name
-    authorByLastName(lastName: String): [Book]
+    getAuthorByLastName(lastName: String): [Author]
 
     # Fetch a list of book titles based on author first name
-    bookTitlesByAuthorFirstName(firstName: String): [String]
+    getBookTitlesByAuthorFirstName(firstName: String): [String]
 }
 
 # Represents a book in the system.
@@ -70,6 +70,15 @@ input AddBookInput {
     authorId: ID
 }
 
+# Input type for updating an authors first name based on id
+input UpdateAuthorFirstNameInput {
+    # the id of the author
+    id: int
+
+    # the new first name
+    firstName: String
+}
+
 # Payload returned after successfully adding an author.
 type AddAuthorPayload {
     # The newly added author.
@@ -90,9 +99,9 @@ type Mutation {
     # Add a new book to the system.
     addBook(input: AddBookInput): AddBookPayload
 
-    # Update an author's first name
-    updateAuthorFirstName(input: UpdateAuthorFirstNameInput): UpdateAuthorPayload
+    # Update an author's first name based on id
+    updateAuthorFirstName(input: UpdateAuthorFirstNameInput): String
 
     # Delete a book by isbn
-    deleteBookByISBN(input: DeleteBookByISBNInput): DeleteBookByISBNPayload
+    deleteBookByISBN(isbn: String): String
 }

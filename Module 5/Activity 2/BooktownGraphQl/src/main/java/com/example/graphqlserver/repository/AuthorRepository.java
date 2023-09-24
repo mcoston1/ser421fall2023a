@@ -41,4 +41,42 @@ public class AuthorRepository {
         dummyAuthors.add(newAuthor);
         return newAuthor;
     }
+
+    public List<Author> getAuthorByLastName(String lastName) {
+        List<Author> lastAuth = new ArrayList<>();
+        for (Author author: dummyAuthors) {
+            if(author.getLastName().equalsIgnoreCase(lastName)) {
+                lastAuth.add(author);
+            }
+        }
+        return lastAuth;
+    }
+
+    public ArrayList<Integer> getAuthorIDByFirstName(String firstName) {
+        ArrayList<Integer> lastAuth = new ArrayList<>();
+        for (Author author: dummyAuthors) {
+            if(author.getFirstName().equalsIgnoreCase(firstName)) {
+                lastAuth.add(author.getId());
+            }
+        }
+        return lastAuth;
+    }
+
+    public String updateAuthorFirstNameById(String newFirstName, int authorId) {
+        String oldFirstName;
+        for(Author author: dummyAuthors) {
+            if (author.getId() == authorId) {
+                oldFirstName = author.getFirstName();
+                String oldLastName = author.getLastName();
+                int nId = author.getId();
+                List<Book> books = author.getBooks();
+
+                Author newlyNamed = new Author(nId, newFirstName, oldLastName, books);
+                dummyAuthors.remove(author);
+                dummyAuthors.add(newlyNamed);
+                return oldFirstName;
+            }
+        }
+        return null;
+    }
 }

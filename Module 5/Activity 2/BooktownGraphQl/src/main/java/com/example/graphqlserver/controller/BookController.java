@@ -36,6 +36,16 @@ public class BookController {
         return bookRepository.getBookByISBN(isbn);
     }
 
+    @QueryMapping
+    public List<Book> getBooksByAuthorId(@Argument("id") int id) {
+        return bookRepository.getBooksByAuthorId(id);
+    }
+
+    @QueryMapping
+    public List<String> getBookTitlesByAuthorFirstName(@Argument("firstName") String firstName) {
+        return bookRepository.getTitleList(authorRepository.getAuthorIDByFirstName(firstName)); 
+    }    
+
     @MutationMapping
     public AddBookPayload addBook(@Argument AddBookInput input) {
         Author author = authorRepository.getAuthorById(input.authorId());
@@ -47,4 +57,10 @@ public class BookController {
         var out = new AddBookPayload(book);
         return out;
     }
+    
+    @MutationMapping
+    public String deleteBookByISBN(@Argument("isbn") String isbn) {
+        return bookRepository.deleteBookByISBN(isbn);
+    }
+
 }
