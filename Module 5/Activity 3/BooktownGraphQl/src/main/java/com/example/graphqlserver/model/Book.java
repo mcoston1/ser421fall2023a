@@ -1,15 +1,12 @@
 package com.example.graphqlserver.model;
 
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+
 
 @Entity
 @Table(name = "books")
 public class Book {
-    private String isbn;
-    private String title;
-
-    private int authorId;
 
     public Book(String isbn, String title, int authorId) {
         this.isbn = isbn;
@@ -40,4 +37,13 @@ public class Book {
     public void setAuthorId(int authorId) {
         this.authorId = authorId;
     }
+
+    @Id
+    private String isbn;
+
+    @Column(name = "title")
+    private String title;
+
+    @JoinColumn(name = "authorId", referencedColumnName = "id")
+    private int authorId;
 }

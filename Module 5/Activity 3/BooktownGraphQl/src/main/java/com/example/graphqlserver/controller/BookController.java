@@ -4,9 +4,8 @@ import com.example.graphqlserver.dto.input.AddBookInput;
 import com.example.graphqlserver.dto.output.AddBookPayload;
 import com.example.graphqlserver.model.Author;
 import com.example.graphqlserver.model.Book;
-import com.example.graphqlserver.repository.AuthorRepository;
-import com.example.graphqlserver.repository.BookRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.graphqlserver.services.AuthorService;
+import com.example.graphqlserver.services.BookService;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
@@ -17,42 +16,43 @@ import java.util.List;
 @Controller
 public class BookController {
 
-    private final BookRepository bookRepository;
-    private final AuthorRepository authorRepository;
 
-    @Autowired
-    public BookController(BookRepository bookRepository, AuthorRepository authorRepository) {
-        this.bookRepository = bookRepository;
-        this.authorRepository = authorRepository;
+    private final BookService bookService;
+    private final AuthorService authorService;
+
+    public BookController(BookService bookService, AuthorService authorService) {
+        this.bookService = bookService;
+        this.authorService = authorService;
     }
+
 
     @QueryMapping
     public List<Book> books() {
-        return bookRepository.getBooks();
+        return bookService.getBooks();
     }
 
     @QueryMapping
     public  Book bookByISBN(@Argument("isbn") String isbn) {
-        return bookRepository.getBookByISBN(isbn);
+        return bookService.getBookByISBN(isbn);
     }
 
     @QueryMapping
     public List<Book> getBooksByAuthorId(@Argument("id") int id) {
-        return bookRepository.getBooksByAuthorId(id);
+        return bookService.getBooksByAuthorId(id);
     }
 
     @QueryMapping
     public List<String> getBookTitlesByAuthorFirstName(@Argument("firstName") String firstName) {
-        return bookRepository.getTitleList(authorRepository.getAuthorIDByFirstName(firstName)); 
+        return bookService.getTitleList(authorService.getAuthorIDByFirstName(firstName)); 
     }    
 
     @MutationMapping
     public AddBookPayload addBook(@Argument AddBookInput input) {
-        Author author = authorRepository.getAuthorById(input.authorId());
+        Author author = authorService.getAuthorById(input.authorId());
         if (author == null) {
             throw  new IllegalArgumentException("Author with ID " + input.authorId() + "does not exist");
         }
-        var book = bookRepository.save(input.isbn(), input.title(), input.authorId());
+        var book = bookService.save(input.isbn(), input.title(), input.authorId());
         author.getBooks().add(book);
         var out = new AddBookPayload(book);
         return out;
@@ -60,7 +60,7 @@ public class BookController {
     
     @MutationMapping
     public String deleteBookByISBN(@Argument("isbn") String isbn) {
-        return bookRepository.deleteBookByISBN(isbn);
+        return bookService.deleteBookByISBN(isbn);
     }
 
 }
