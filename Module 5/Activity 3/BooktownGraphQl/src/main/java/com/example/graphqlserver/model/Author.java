@@ -4,6 +4,11 @@ package com.example.graphqlserver.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "authors")
+
 public class Author {
 
     private int id;

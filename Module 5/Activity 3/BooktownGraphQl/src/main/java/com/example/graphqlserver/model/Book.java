@@ -1,5 +1,10 @@
 package com.example.graphqlserver.model;
 
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "books")
 public class Book {
     private String isbn;
     private String title;
