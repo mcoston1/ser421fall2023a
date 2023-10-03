@@ -1,4 +1,4 @@
-package com.example.restlab.model;
+package com.example.restlab.modelhelpers;
 
 public class SurveyItemRequest {
     

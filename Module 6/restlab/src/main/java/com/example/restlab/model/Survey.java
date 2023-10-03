@@ -13,6 +13,7 @@ public class Survey {
         __state = state;
     }
 
+  
     public Survey(int id, List<SurveyItem> surveyItems, SurveyState state) {
         __id = id;
         __surveyItems = surveyItems;
