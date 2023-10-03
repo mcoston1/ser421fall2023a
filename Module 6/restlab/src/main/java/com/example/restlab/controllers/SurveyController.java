@@ -4,17 +4,21 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.restlab.model.Survey;
 import com.example.restlab.model.SurveyItem;
+import com.example.restlab.model.SurveyItemRequest;
 import com.example.restlab.model.SurveyRequest;
 import com.example.restlab.model.Survey.SurveyState;
+import com.example.restlab.controllers.SurveyItemController;
 
 @RequestMapping("/surveys")
 @RestController
@@ -66,4 +70,42 @@ public class SurveyController {
         dummySurvey.add(new Survey(dummySurvey.size(), surveyRequest.getSurveyItems(), SurveyState.CREATED));
     }
 
+    //fourth endpoint, add a survey item to a survey via PUT
+    @PutMapping("/{id}")
+    public void insertSurveyItem(@PathVariable Integer id, @RequestBody SurveyItemRequest surveyItemRequest) {
+        int i = 0;
+        for (;i < dummySurvey.size() && dummySurvey.get(i).getSurveyId() != id; i++)
+        ;;;
+        if (i != dummySurvey.size()) { // if id is match, then add item to a survey
+            int sItemId = SurveyItemController.dummySurveyItems.size();//extract the id first
+
+            SurveyItemController.dummySurveyItems.add(new SurveyItem (SurveyItemController.dummySurveyItems.size(), surveyItemRequest.getQuestionStem(), surveyItemRequest.getPossibleAnswers(), surveyItemRequest.getCorrectAnswer())); //add to global pile
+
+            List<SurveyItem> itemList = dummySurvey.get(i).getSurveyItems(); //pull survey with id
+
+            //error handle duplicate survey items in here somewhere-----------------------------------
+
+
+
+
+
+
+            //add item to the surveys list of survey items
+            itemList.add(new SurveyItem (sItemId, surveyItemRequest.getQuestionStem(), surveyItemRequest.getPossibleAnswers(), surveyItemRequest.getCorrectAnswer()));            
+        } else {
+            SurveyItemController.dummySurveyItems.add(new SurveyItem (SurveyItemController.dummySurveyItems.size(), surveyItemRequest.getQuestionStem(), surveyItemRequest.getPossibleAnswers(), surveyItemRequest.getCorrectAnswer())); //add to pile
+        }
+    }
+
+    //fifth endpoint, delete a survey via DELETE (though really just mark as deleted)
+    @DeleteMapping("/{id}") 
+    public void deleteSurvey(@PathVariable Integer id) {
+        int i = 0;
+        for (;i < dummySurvey.size() && dummySurvey.get(i).getSurveyId() != id; i++)
+        ;;;
+        if (i != dummySurvey.size()) {
+            dummySurvey.remove(i);
+        }
+    }
+    
 }

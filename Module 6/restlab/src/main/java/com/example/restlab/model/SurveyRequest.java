@@ -8,6 +8,7 @@ public class SurveyRequest {
 
     }
 
+    
     public SurveyRequest(List<SurveyItem> surveyItems) {
         __surveyItems = surveyItems;
         
