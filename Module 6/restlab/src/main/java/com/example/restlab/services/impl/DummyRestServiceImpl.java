@@ -11,8 +11,9 @@ import com.example.restlab.model.SurveyInstance;
 import com.example.restlab.model.SurveyItem;
 import com.example.restlab.model.SurveyItemInstance;
 import com.example.restlab.model.SurveyItemInstance.SurveyItemInstanceState;
-import com.example.restlab.model.exceptions.RestEntityNotFoundException;
 import com.example.restlab.model.exceptions.RestInternalException;
+import com.example.restlab.model.exceptions.SurveyInstanceNotFoundException;
+import com.example.restlab.model.exceptions.SurveyNotFoundException;
 import com.example.restlab.modelhelpers.SurveyItemRequest;
 import com.example.restlab.services.RestService;
 
@@ -64,11 +65,11 @@ public class DummyRestServiceImpl implements RestService {
     }
 
     @Override
-    public Survey getSurvey(int id) throws RestEntityNotFoundException {
+    public Survey getSurvey(int id) throws SurveyNotFoundException {
         for (Survey s: dummySurvey) {
             if (s.getSurveyId() == id) return s;
         }
-        throw new RestEntityNotFoundException();
+        throw new SurveyNotFoundException("No survey with that id found");
     }
 
     @Override
@@ -86,22 +87,24 @@ public class DummyRestServiceImpl implements RestService {
     }
 
     @Override
-    public Survey addSurveyItem(Integer id, SurveyItemRequest surveyItemRequest) throws RestEntityNotFoundException {
+    public Survey addSurveyItem(Integer id, SurveyItemRequest surveyItemRequest) throws RestInternalException {
         try {
             int i = 0;
             for (;i < dummySurvey.size() && dummySurvey.get(i).getSurveyId() != id; i++)
             ;;;
             if (i != dummySurvey.size()) { // if id is match, then add item to a survey
-                int sItemId = dummySurveyItems.size();//extract the id first
+                int sItemId = dummySurveyItems.size();//extract the new id first                
+                for(SurveyItem si: dummySurveyItems) { //check for duplicates
+                    if(si.getQuestionStem().equalsIgnoreCase(surveyItemRequest.getQuestionStem())) { //iuf the question stems match
+                        throw new RestInternalException("Survey item with this question already exists.");
+                    }
+                }
                 dummySurveyItems.add(new SurveyItem (dummySurveyItems.size(), surveyItemRequest.getQuestionStem(), surveyItemRequest.getPossibleAnswers(), surveyItemRequest.getCorrectAnswer())); //add to global pile
-
-                List<SurveyItem> itemList = dummySurvey.get(i).getSurveyItems(); //pull survey with id
-
-                //error handle duplicate survey items in here or full survey somewhere-----------------------------------
-
-
-
-
+                List<SurveyItem> itemList = dummySurvey.get(i).getSurveyItems(); //pull survey with id                
+                if(itemList.size() == 5) { //error handle full survey
+                    dummySurvey.get(i).setSurveyState(SurveyState.COMPLETED);
+                    throw new RestInternalException("Survey item list full.");
+                } 
                 //add item to the surveys list of survey items
                 if(itemList.add(new SurveyItem (sItemId, surveyItemRequest.getQuestionStem(), surveyItemRequest.getPossibleAnswers(), surveyItemRequest.getCorrectAnswer()))) {                    
                     return dummySurvey.get(i);  //return 'new' Survey
@@ -109,7 +112,7 @@ public class DummyRestServiceImpl implements RestService {
                     throw new RestInternalException("Internal service error, unable to add survey item to survey");
                 }                
             } else {
-                return null;
+                throw new RestInternalException("Internal service error, unable to add survey item to survey");
             }
         } catch (Throwable t) {
             throw new RestInternalException();
@@ -118,7 +121,7 @@ public class DummyRestServiceImpl implements RestService {
     }
 
     @Override
-    public boolean deleteSurvey(int id) throws RestEntityNotFoundException {
+    public boolean deleteSurvey(int id) throws SurveyNotFoundException {
         int i = 0;
         for (;i < dummySurvey.size() && dummySurvey.get(i).getSurveyId() != id; i++)
         ;;;
@@ -126,7 +129,7 @@ public class DummyRestServiceImpl implements RestService {
             dummySurvey.get(i).setSurveyState(SurveyState.DELETED);
             return true;
         } else {
-            return false;
+            throw new SurveyNotFoundException("No survey with that id exists");
         }        
     }
 
@@ -135,11 +138,11 @@ public class DummyRestServiceImpl implements RestService {
         return dummySurveyItems;        
     }
 
-    public SurveyItem getSurveyItemById(int id) throws RestEntityNotFoundException {
+    public SurveyItem getSurveyItemById(int id) throws RestInternalException {
         for(SurveyItem si: dummySurveyItems) {
             if (si.getItemId() == id) return si;            
         }
-        throw new RestEntityNotFoundException();
+        throw new RestInternalException("Survey item with that id does not exist");
     }
 
     
@@ -193,8 +196,11 @@ public class DummyRestServiceImpl implements RestService {
     public SurveyInstance createSurveyInstance(Integer id, String user, List<SurveyItem> list) {
         try {
             //check for survey to actually exist by id, else throw exception 
-
             List<SurveyItemInstance> surveyItemInstanceList = new ArrayList<>();
+
+            if (getSurvey(id).getSurveyState() == SurveyState.DELETED) {
+                throw new RestInternalException("Unable to create new survey instance, survey marked for deletion");
+            }
 
             for (SurveyItem si : list) { //for each surveyitem, create an instance
                 SurveyItemInstance sii = new SurveyItemInstance(si, SurveyItemInstanceState.NOTCOMPLETED); 
@@ -213,7 +219,7 @@ public class DummyRestServiceImpl implements RestService {
     }
 
     @Override
-    public SurveyItemInstance addSurveyAnswer(String user, Integer id, Integer surveyItemId, String answer) throws RestEntityNotFoundException {
+    public SurveyItemInstance addSurveyAnswer(String user, Integer id, Integer surveyItemId, String answer) throws SurveyInstanceNotFoundException {
         try {            
             for(SurveyInstance sIns : dummySurveyInstances) {  //hunt through list of dummySurveyInstances and 
                 System.out.println(sIns.getUser()); //-----------DEBUG
@@ -223,6 +229,9 @@ public class DummyRestServiceImpl implements RestService {
                         for (SurveyItemInstance sIInst : sIns.getSurveyItemInstances()) { //check every survItemInst inside surveyInst
                             if (sIInst.getSurveyItemId() == surveyItemId) { //if the item ids are the same                             
                                  //---------answerSurveyItemInstance(String answer)
+                                 if(sIInst.getSurveyItemInstanceState() == SurveyItemInstanceState.COMPLETED) {
+                                    throw new SurveyInstanceNotFoundException("This survey item instance has already been completed");
+                                 }
                                 sIInst.setAnswer(answer);
                                 if(answer.equals(getSurveyItemById(surveyItemId).getCorrectAnswer())) {
                                     sIInst.setCorrect();
@@ -231,6 +240,15 @@ public class DummyRestServiceImpl implements RestService {
                                     sIInst.setIncorrect();
                                     sIInst.setSurveyItemInstanceState(SurveyItemInstanceState.COMPLETED);
                                 }
+                                int comp = 0;
+                                for(SurveyItemInstance sItemInst : sIns.getSurveyItemInstances()) {
+                                    if(sItemInst.getSurveyItemInstanceState() == SurveyItemInstanceState.COMPLETED) {
+                                        comp++;
+                                    }
+                                    if(comp == sIns.getSurveyItemInstances().size()){
+                                        sIns.setSurveyInstanceStateToCompleted();
+                                    }
+                                }
                                 SurveyItemInstance rval = sIInst;                            
                                 return rval;
                             }
@@ -238,9 +256,9 @@ public class DummyRestServiceImpl implements RestService {
                     }
                 }
             } 
-            throw new RestEntityNotFoundException("User, Survey Id, or Survey Item Id does not exist"); 
+            throw new SurveyInstanceNotFoundException("User, Survey Id, or Survey Item Id does not exist"); 
         } catch (Throwable t) {
-            throw new RestEntityNotFoundException();
+            throw new SurveyInstanceNotFoundException();
         }
     }
 
@@ -250,21 +268,7 @@ public class DummyRestServiceImpl implements RestService {
     }
 
     @Override
-    public SurveyInstance getSurveyInstance(String user) throws RestEntityNotFoundException {
-        try {
-            for (SurveyInstance si: dummySurveyInstances) {
-                if (si.getUser().equalsIgnoreCase(user)) {
-                    return si;
-                }
-            }
-            throw new RestEntityNotFoundException("User does not exist");
-        } catch (Throwable t) {
-            throw new RestEntityNotFoundException();
-        }
-    }
-
-    @Override
-    public SurveyInstance getSpecificSurveyInstance(String user, int id) throws RestEntityNotFoundException {
+    public SurveyInstance getSpecificSurveyInstance(String user, int id) throws SurveyInstanceNotFoundException {
         try {
             for (SurveyInstance si: dummySurveyInstances) {
                 if (si.getUser().equalsIgnoreCase(user)) { //if the instance has a user with that name
@@ -273,9 +277,9 @@ public class DummyRestServiceImpl implements RestService {
                     }
                 }
             }
-            throw new RestEntityNotFoundException("User does not exist or does not have a survey by that id");
+            throw new SurveyInstanceNotFoundException("User does not exist or does not have a survey by that id");
         } catch (Throwable t) {
-            throw new RestEntityNotFoundException();
+            throw new SurveyInstanceNotFoundException();
         }
     }
 } //end of class

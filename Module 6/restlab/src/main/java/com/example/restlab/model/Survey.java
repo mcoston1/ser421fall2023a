@@ -3,6 +3,8 @@ package com.example.restlab.model;
 import java.util.List;
 
 public class Survey {
+
+    public Survey() {}
     
     public Survey(int id, List<SurveyItem> surveyItems, SurveyState state) {
         __id = id;
