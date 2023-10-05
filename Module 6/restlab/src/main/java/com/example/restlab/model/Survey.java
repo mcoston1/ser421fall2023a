@@ -4,16 +4,6 @@ import java.util.List;
 
 public class Survey {
     
-    public Survey() {
-
-    }
-
-    public Survey(int id, SurveyState state) {
-        __id = id;
-        __state = state;
-    }
-
-  
     public Survey(int id, List<SurveyItem> surveyItems, SurveyState state) {
         __id = id;
         __surveyItems = surveyItems;

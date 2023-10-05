@@ -3,7 +3,6 @@ package com.example.restlab.modelhelpers;
 import java.util.List;
 
 import com.example.restlab.model.Survey;
-import com.example.restlab.model.SurveyItem;
 
 public class SurveyResponse {
     private String __url;

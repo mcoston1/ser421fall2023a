@@ -7,10 +7,13 @@ To-Do
 4. Get the set of all surveys. xx
 5. Get a specific survey and the set of all survey items in that survey xx
 
-6. Create a survey instance of a survey for a user, with the associated set of survey item instances.
-7. Accept an answer for a survey item instance on a specific survey instance.
-8. Retrieve the set of all survey instances in a given state; if no state is given return all survey instances x - needs testing - 
-9. Retrieve a specific survey instance with all of the survey item instances contained with it.
+6. Create a survey instance of a survey for a user, with the associated set of survey item instances. xx 
+
+7. Accept an answer for a survey item instance on a specific survey instance.xx
+
+8. Retrieve the set of all survey instances in a given state; if no state is given return all survey instances xx
+
+9. Retrieve a specific survey instance with all of the survey item instances contained with it. xx
 
 10. Delete a specific survey xx
 
@@ -18,6 +21,7 @@ To-Do
 
 
 - finish service implementation for instance methods
+-- Add an initial survey instance to RestServiceImpl!!!!!!
 -- iterate over survey items with new survey instance to create survey item instances
 -- create PUT method for answer acceptance - maybe create survey item answer request class?
 --- add state change when answer is given to each survey item instance

@@ -1,0 +1,259 @@
+{
+	"info": {
+		"_postman_id": "ddd3de2d-cb9f-4d64-8da9-d3625d7f937b",
+		"name": "RestLabApi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30230536"
+	},
+	"item": [
+		{
+			"name": "Req 1. Create a survey item",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"questionStem\": \"what is the best number to take on a date\",\r\n    \"possibleAnswers\": [\"0\", \"42\", \"4\", \"1\"],\r\n    \"correctAnswer\": \"1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/surveyitems",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"surveyitems"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Req 2. Create a survey",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"surveyItems\": []\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/surveys",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"surveys"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Req 3. Add a survey item to a survey",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"questionStem\": \"how many lives do cats have\",\r\n    \"possibleAnswers\": [\"0\", \"3\", \"6\", \"9\"],\r\n    \"correctAnswer\": \"9\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/surveys/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"surveys",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Req 4. Get the set of all surveys",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/surveys",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"surveys"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Req 5. Get a specific survey and the set of all survey items in that survey",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/surveys/0",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"surveys",
+						"0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Req 6. Create a survey instance of a survey for a user, with the associated set of survey item instances",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user\": \"miranda\",\r\n    \"surveyId\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/survey/instances",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"survey",
+						"instances"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Req 7. Accept an answer for a survey item instance on a specific survey instance",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"surveyId\":0,\r\n    \"surveyItemId\":0,\r\n    \"answer\": \"42\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/survey/instances/users/kevin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"survey",
+						"instances",
+						"users",
+						"kevin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Req 8. Retrieve the set of all suvey instances in a given state; if no state is given, return all survey instances",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/survey/instances/state/crEaTed",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"survey",
+						"instances",
+						"state",
+						"crEaTed"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Req 9. Retrieve a specific survey instance with all of the survey item instances contained with it",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/survey/instances/users/kevin/0",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"survey",
+						"instances",
+						"users",
+						"kevin",
+						"0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Req 10. Delete a specific survey",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/surveys/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"surveys",
+						"3"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
